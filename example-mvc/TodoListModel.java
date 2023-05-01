@@ -1,22 +1,25 @@
-import java.util.ArrayList;
-import java.util.List;
+public class TodoItem {
+    private String title;
+    private boolean completed;
 
-public class TodoListModel {
-    private List<String> todoList;
-
-    public TodoListModel() {
-        this.todoList = new ArrayList<>();
+    public TodoItem(String title, boolean completed) {
+        this.title = title;
+        this.completed = completed;
     }
 
-    public void addTodoItem(String item) {
-        todoList.add(item);
+    public String getTitle() {
+        return title;
     }
 
-    public void removeTodoItem(int index) {
-        todoList.remove(index);
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public List<String> getTodoList() {
-        return todoList;
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

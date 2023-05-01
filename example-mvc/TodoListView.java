@@ -1,57 +1,70 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 public class TodoListView extends JFrame {
-    private JList<String> todoList;
-    private JButton addButton;
-    private JButton removeButton;
-    private JTextField todoItemField;
+    private JList<TodoItem> todoList;
+    private DefaultListModel<TodoItem> listModel;
 
     public TodoListView() {
         setTitle("Todo List");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(300, 400);
 
-        todoList = new JList<>();
+        // Initialize components
+        listModel = new DefaultListModel<>();
+        todoList = new JList<>(listModel);
         JScrollPane scrollPane = new JScrollPane(todoList);
-        add(scrollPane, BorderLayout.CENTER);
+        JButton addButton = new JButton("Add");
+        JButton removeButton = new JButton("Remove");
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
+        // Layout components
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(scrollPane)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(addButton)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(removeButton))
+        );
+        layout.setVerticalGroup(
+                layout.createSequentialGroup()
+                        .addComponent(scrollPane)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(addButton)
+                                .addComponent(removeButton))
+        );
 
-        addButton = new JButton("Add");
-        removeButton = new JButton("Remove");
-        todoItemField = new JTextField(20);
-
-        buttonPanel.add(todoItemField);
-        buttonPanel.add(addButton);
-        buttonPanel.add(removeButton);
-
-        add(buttonPanel, BorderLayout.SOUTH);
-
-        pack();
+        // Show window
         setVisible(true);
     }
 
-    public void setTodoList(List<String> list) {
-        todoList.setListData(list.toArray(new String[0]));
+    public void updateTodoList(List<TodoItem> items) {
+        listModel.clear();
+        for (TodoItem item : items) {
+            listModel.addElement(item);
+        }
     }
 
-    public String getTodoItem() {
-        return todoItemField.getText();
+    public void addTodoItem(TodoItem item) {
+        listModel.addElement(item);
     }
 
-    public void setAddButtonListener(ActionListener listener) {
+    public void removeSelectedTodoItem() {
+        int selectedIndex = todoList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            listModel.remove(selectedIndex);
+        }
+    }
+
+    public void setAddButtonActionListener(ActionListener listener) {
         addButton.addActionListener(listener);
     }
 
-    public void setRemoveButtonListener(ActionListener listener) {
+    public void setRemoveButtonActionListener(ActionListener listener) {
         removeButton.addActionListener(listener);
-    }
-
-    public int getSelectedIndex() {
-        return todoList.getSelectedIndex();
     }
 }

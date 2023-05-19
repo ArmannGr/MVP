@@ -1,8 +1,8 @@
 package com.example.todor.service;
 
 import com.example.todor.model.Todo;
-import com.example.todor.presenterImplementation.TodoPresenterImpl;
 import com.example.todor.presenterInterface.TodoPresenter;
+import com.example.todor.repository.TodoRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +12,11 @@ import java.util.List;
 @RestController
 public class TodoService {
     private final TodoPresenter todoPresenter;
+    private final TodoRepository todoRepository;
 
-    public TodoService(TodoPresenter todoPresenter) {
+    public TodoService(TodoPresenter todoPresenter, TodoRepository todoRepository) {
         this.todoPresenter = todoPresenter;
+        this.todoRepository = todoRepository;
     }
 
     // constructor
@@ -29,9 +31,9 @@ public class TodoService {
         todoPresenter.createTodo(todo);
     }
 
-    @PutMapping("/todos")
-    public void updateTodo(@RequestBody Todo todo) {
-        todoPresenter.updateTodo(todo);
+    @PutMapping("/todos/{id}")
+    public Todo updateTodo(@PathVariable Long id) {
+        return todoPresenter.updateTodo(todoRepository.findTodoById(id));
     }
 
     @DeleteMapping("/todos/{id}")

@@ -27,8 +27,9 @@ public class TodoPresenterImpl implements TodoPresenter {
     }
 
     @Override
-    public void updateTodo(Todo todo) {
-        todoRepository.save(todo);
+    public Todo updateTodo(Todo todo) {
+        todo.setCompleted(!todo.isCompleted());
+        return todoRepository.save(todo);
     }
 
     @Override

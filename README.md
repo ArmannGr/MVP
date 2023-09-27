@@ -12,9 +12,9 @@ This example repository demonstrates the following features:
 
 1. **Model:** Represents the application's data and business logic. In this example, the model is the database (in a docker container).
 
-2. **View:** Represents the UI elements and their layout. It is responsible for displaying data and handling user interactions.
+2. **View:** Represents the UI elements and their layout. It is responsible for displaying data and handling user interactions (Angular-App).
 
-3. **Presenter:** Acts as an intermediary between the Model and View. It handles user input from the View, processes it using the Model, and updates the View accordingly.
+3. **Presenter:** Acts as an intermediary between the Model and View. It handles user input from the View, processes it using the Model, and updates the View accordingly (Springboot-App).
 
 ## Usage
 
